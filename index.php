@@ -1,225 +1,181 @@
-<?php
+<?php 
 session_start();
- require('dbconfig.php'); ?>
+include('../dbconfig.php');
+$user= $_SESSION['user'];
+if($user=="")
+{header('location:../index.php');}
+$sql=mysqli_query($conn,"select * from user where email='$user' ");
+$users=mysqli_fetch_assoc($sql);
+//print_r($users);
+?>
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-
+  <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-	<title>Faculty feedback System</title>
-	
-	<!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" href="../../favicon.ico">
 
-    <!-- Custom CSS -->
-    <link href="css/modern-business.css" rel="stylesheet">
+    <title>Faculty feedback System</title>
 
-    <!-- Custom Fonts -->
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- Bootstrap core CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
 
-</head>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="../css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 
-<body>
+    <!-- Custom styles for this template -->
+    <link href="../css/dashboard.css" rel="stylesheet">
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="background:#2d439c">
-        <div class="container" >
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="index.php" style="color:#FFFFFF">Faculty feedback System</a>
-				
-				
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                    
-					 <li style="color:#FFFFFF">
-                        <a style="color:#FFFFFF" href="index.php"><i class="fa fa-home fa-fw"></i>Home</a>
-                    </li>
-					
-					<li style="color:#FFFFFF">
-                        <a style="color:#FFFFFF" href="index.php?info=about"><i class="fa-info fa-fw"></i>About</a>
-                    </li>
-					
-					<li><a style="color:#FFFFFF" href="index.php?info=registration"><i class="fa fa-sign-out fa-fw"></i>Registration</a></li>
-				
-				
-								
-	<li class="dropdown">
-        <a style="color:#FFFFFF" href="#" class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-sign-in fa-fw"></i>Login
-        <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          
-          <li><a href="index.php?info=login">Student</a></li>
-		  <li><a href="index.php?info=faculty_login">Faculty</a></li> 
-          <li><a href="admin">Admin</a></li> 
-        </ul>
-      </li> 
-	  
-	
-	  
-	  
-	 <li>
-                        <a style="color:#FFFFFF" href="index.php?info=contact"><i class="fa fa-phone fa-fw"></i>Contact</a>
-                    </li>
-					 	
-					
-                   
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="../js/ie-emulation-modes-warning.js"></script>
 
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top" style="background:#428bca">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" style="color:#FFFFFF" href="#">Hello <?php echo $users['name'];?></a>
         </div>
-        <!-- /.container -->
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+           
+            <li><a href="logout.php"  style="color:#FFFFFF">Logout</a></li>
+          </ul>
+          
+        </div>
+      </div>
     </nav>
 
-<?php 
-					@$info=$_GET['info'];
-					if($info!="")
-					{
-											
-						 if($info=="about")
-						 {
-						 include('about.php');
-						 }
-						
-						
-						
-						
-
-						 
-						 else if($info=="contact")
-						 {
-						 include('contact.php');
-						 }
-						
-						
-						 
-						 
-						 else if($info=="login")
-						 {
-						 include('login.php');
-						 }
-						 
-						  else if($info=="faculty_login")
-						 {
-						 include('faculty_login.php');
-						 }
-						 
-						 
-						 else if($info=="registration")
-						 {
-						 	include('registration.php');
-						 }
-					}
-					else
-					{
-				?>
-		<!-- slider start -->
-    <header id="myCarousel" class="carousel slide">
-        <!-- Indicators -->
-        <ol class="carousel-indicators">
-            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#myCarousel" data-slide-to="1"></li>
-            <li data-target="#myCarousel" data-slide-to="2"></li>
-        </ol>
-
-        <!-- Wrapper for slides -->
-        <div class="carousel-inner">
-            <div class="item active">
-                
-                <div class="fill" style="background-image:url('images/fee.png');"></div>
-				<div class="carousel-caption">
-                    
-                </div>
-            </div>
-           
-            <div class="item">
-                <div class="fill" style="background-image:url('images/uum-kedah.jpg');"></div>
-                <div class="carousel-caption">
-                   
-                </div>
-            </div>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="index.php">Dashboard <span class="sr-only">(current)</span></a></li>
+			<!-- find users' image if image not found then show dummy image -->
 			
-			 <div class="item">
-                <div class="fill" style="background-image:url('images/UUM-1.jpg');"></div>
-                <div class="carousel-caption">
-                   
-                </div>
-            </div>
+			<!-- check users profile image -->
+			<?php 
+			$q=mysqli_query($conn,"select image from user where email='".$_SESSION['user']."'");
+			$row=mysqli_fetch_assoc($q);
+			if($row['image']=="")
+			{
+			?>
+            <li><a href="#"><img style="border-radius:50px" src="../images/person.jpg" width="100" height="100" alt="not found"/></a></li>
+			<?php 
+			}
+			else
+			{
+			?>
+			<li><a href="#"><img style="border-radius:50px" src="../images/<?php echo $_SESSION['user'];?>/<?php echo $row['image'];?>" width="100" height="100" alt="not found"/></a></li>
+			<?php 
+			}
+			?>
 			
 			
 			
-			
-        <!-- Controls -->
-        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-            <span class="icon-prev"></span>
-        </a>
-        <a class="right carousel-control" href="#myCarousel" data-slide="next">
-            <span class="icon-next"></span>
-        </a>
-    </header>
-<!-- slider -->			
-	
-	
-    <!-- Page Content -->
-    <div class="container">
-
-        <div class="row">
-            <div class="col-lg-12">
-               
-				
-				
-				
-	
-	
-				
-				
-				
-			<div class="col-sm-10" style="margin-top:60px;margin-bottom:80px">
-				<h2>About Faculty feedback System</h2>
-				A faculty feedback system is a set of procedures used in institutions to address complaints and resolve disputes. There is also a major need to collect, review and understand the nature of conflict management and complaint systems around the faculty. So, our complaint system is more user friendly because we want to ease the user and the management staff. This complaint system can search any complaint report in the system by the report ID. So, it will not be difficult to find any complaint later. Furthermore, this system also provides a deleting option on the report that has been solved. So, this will make the system clear from the old report that has been solved and only the active cases will open for the admin to resolve.
-
-	
-			</div>
-			
-			
-			
-			
-				<?php } ?>
-            </div>
+			<li><a href="index.php?page=update_password"><span class="glyphicon glyphicon-user"></span> Update Password</a></li>
+            <li><a href="index.php?page=update_profile"><span class="glyphicon glyphicon-asterisk"></span> Update Profile</a></li>
+			 <li><a href="index.php?page=feedback"><span class="glyphicon glyphicon-thumbs-down"></span> Feedback</a></li>
             
+          </ul>
+         
+         
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <!-- container-->
+		  <?php 
+		@$page=  $_GET['page'];
+		  if($page!="")
+		  {
+		  	if($page=="update_password")
+			{
+				include('update_password.php');
+			
+			}
+			
+				if($page=="update_profile")
+			{
+				include('update_profile.php');
+			
+			}
+			if($page=="feedback")
+			{
+				include('give_feedback.php');
+			
+			}
+		  }
+		  else
+		  {
+		  
+		  ?>
+		 
+		  
+		  
+		  
+		  <h1 class="page-header">Dashboard</h1>
+		  
+		  
+		  
+		  
+		  
+		  
+
+          <div class="row placeholders">
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+              <h4>Label</h4>
+              <span class="text-muted">Something else</span>
+            </div>
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+              <h4>Label</h4>
+              <span class="text-muted">Something else</span>
+            </div>
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+              <h4>Label</h4>
+              <span class="text-muted">Something else</span>
+            </div>
+            <div class="col-xs-6 col-sm-3 placeholder">
+              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+              <h4>Label</h4>
+              <span class="text-muted">Something else</span>
+            </div>
+          </div>
+<?php } ?>
+        
+          
+        </div>
+      </div>
     </div>
-    <!-- /.container -->
-	
-	<div class="navbar-fixed-bottom nav navbar-inverse text-center" style="padding:15px;height:40px; background:#2d439c">
-		
-	</div>
-    <!-- jQuery -->
-    <script src="css/jquery.js"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="css/bootstrap.min.js"></script>
-
-    <!-- Script to Activate the Carousel -->
-    <script>
-    $('.carousel').carousel({
-        interval: 5000 //changes the speed
-    })
-    </script>
-
-</body>
-
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+    <script src="../js/vendor/holder.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+  </body>
 </html>
